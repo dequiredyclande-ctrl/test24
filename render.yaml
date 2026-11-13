@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: roblox-minecraft-bridge
+    runtime: node
+    plan: starter            # le plan free s'endort apres 15 min => les bots se deconnectent
+    region: frankfurt
+    buildCommand: npm install
+    startCommand: node index.js
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DATA_DIR
+        value: /var/data
+      - key: OBJECTS_API_KEY
+        generateValue: true
+      - key: ANTI_KICK
+        value: "1"
+    disk:
+      name: bridge-data
+      mountPath: /var/data
+      sizeGB: 1
